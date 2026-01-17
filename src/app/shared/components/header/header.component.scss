@@ -1,21 +1,41 @@
-.header {
-    position: sticky;
-    top: 0;
+:host {
+    display: block;
+    width: 100%;
     z-index: 1000;
-    background: rgba(255, 255, 255, 0.8);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
-    padding: 0.75rem 1.5rem;
+}
+
+.header {
+    background: linear-gradient(135deg, rgba(63, 72, 204, 0.05) 0%, rgba(33, 150, 243, 0.05) 100%),
+        rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border-bottom: 1px solid rgba(63, 81, 181, 0.1);
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.05);
+    height: 64px;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    position: relative;
+
+    &::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, rgba(63, 81, 181, 0.3), transparent);
+    }
 
     .header-content {
-        max-width: 1200px;
+        max-width: 800px;
         margin: 0 auto;
+        padding: 0 1rem;
         display: flex;
         align-items: center;
         justify-content: space-between;
         gap: 2rem;
+        width: 100%;
     }
 }
 
@@ -25,10 +45,10 @@
     gap: 0.5rem;
     cursor: pointer;
     user-select: none;
-    height: 40px; // Set explicit height to help with centering
+    height: 40px;
 
     mat-icon {
-        font-size: 24px; // Slightly adjusted for better balance
+        font-size: 24px;
         width: 24px;
         height: 24px;
         display: flex;
@@ -42,7 +62,7 @@
         color: #1a1a1a;
         letter-spacing: -0.5px;
         margin: 0;
-        padding: 8px 0; // Symmetric padding gives room for 'g' without shifting the center
+        padding: 8px 0;
         line-height: 1;
         background: linear-gradient(135deg, #3f51b5 0%, #2196f3 100%);
         -webkit-background-clip: text;
@@ -72,6 +92,6 @@
     }
 
     .logo-text {
-        display: none; // Only icon on mobile
+        display: none;
     }
 }

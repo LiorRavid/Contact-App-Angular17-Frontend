@@ -1,0 +1,30 @@
+.app-content {
+    height: calc(100vh - 64px);
+    overflow-y: auto;
+    background-color: #f8fafc;
+
+    scroll-behavior: smooth;
+
+    &::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: #cbd5e1;
+        border-radius: 10px;
+
+        &:hover {
+            background: #94a3b8;
+        }
+    }
+}
+
+@media (max-width: 768px) {
+    .app-content {
+        height: calc(100vh - 56px);
+    }
+}
