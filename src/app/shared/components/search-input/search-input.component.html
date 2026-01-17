@@ -1,11 +1,10 @@
-<mat-form-field appearance="outline" class="search-field">
-    <mat-label>Search contacts</mat-label>
-    <input matInput [formControl]="searchControl" placeholder="Search by name, phone or email..."
-        aria-label="Search contacts">
-    <mat-icon matPrefix>search</mat-icon>
+<div class="search-container" [class.focused]="isFocused">
+    <mat-icon class="search-icon">search</mat-icon>
+    <input type="text" [formControl]="searchControl" placeholder="Search contacts..." (focus)="isFocused = true"
+        (blur)="isFocused = false">
     @if (searchControl.value) {
-    <button mat-icon-button matSuffix (click)="clearSearch()" aria-label="Clear search">
+    <button mat-icon-button (click)="clearSearch()" class="clear-button">
         <mat-icon>close</mat-icon>
     </button>
     }
-</mat-form-field>
+</div>

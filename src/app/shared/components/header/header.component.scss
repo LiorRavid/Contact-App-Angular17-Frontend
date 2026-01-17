@@ -1,0 +1,77 @@
+.header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+    padding: 0.75rem 1.5rem;
+
+    .header-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 2rem;
+    }
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    user-select: none;
+    height: 40px; // Set explicit height to help with centering
+
+    mat-icon {
+        font-size: 24px; // Slightly adjusted for better balance
+        width: 24px;
+        height: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .logo-text {
+        font-size: 1.25rem;
+        font-weight: 800;
+        color: #1a1a1a;
+        letter-spacing: -0.5px;
+        margin: 0;
+        padding: 8px 0; // Symmetric padding gives room for 'g' without shifting the center
+        line-height: 1;
+        background: linear-gradient(135deg, #3f51b5 0%, #2196f3 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+}
+
+.search-wrapper {
+    flex: 1;
+    max-width: 600px;
+}
+
+.actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+@media (max-width: 768px) {
+    .header {
+        padding: 0.5rem 1rem;
+
+        .header-content {
+            gap: 1rem;
+        }
+    }
+
+    .logo-text {
+        display: none; // Only icon on mobile
+    }
+}

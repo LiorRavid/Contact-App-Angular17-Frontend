@@ -5,7 +5,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { ContactsStateService } from '../../core/services/contacts-state.service';
-import { SearchInputComponent } from '../../shared/components/search-input/search-input.component';
+import { HeaderComponent } from '../../shared/components/header/header.component';
 import { LoadingSpinnerComponent } from '../../shared/components/loading-spinner/loading-spinner.component';
 import { ContactCardComponent } from './components/contact-card/contact-card.component';
 import { ConfirmDialogComponent } from '../../shared/components/confirm-dialog/confirm-dialog.component';
@@ -18,7 +18,7 @@ import { ConfirmDialogComponent } from '../../shared/components/confirm-dialog/c
         MatButtonModule,
         MatIconModule,
         MatDialogModule,
-        SearchInputComponent,
+        HeaderComponent,
         LoadingSpinnerComponent,
         ContactCardComponent
     ],

@@ -1,8 +1,7 @@
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { Subject, takeUntil, tap } from 'rxjs';
 import { SearchService } from '../../../core/services/search.service';
@@ -13,8 +12,7 @@ import { SearchService } from '../../../core/services/search.service';
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    MatFormFieldModule,
-    MatInputModule,
+    MatButtonModule,
     MatIconModule
   ],
   templateUrl: './search-input.component.html',
@@ -25,10 +23,9 @@ export class SearchInputComponent implements OnInit, OnDestroy {
 
   searchControl = new FormControl('');
   private destroy$ = new Subject<void>();
+  isFocused = false;
 
   ngOnInit(): void {
-    // We update the search service directly. 
-    // The service handles the debounce and distinct logic.
     this.searchControl.valueChanges.pipe(
       tap(value => this.searchService.updateSearchTerm(value || '')),
       takeUntil(this.destroy$)
