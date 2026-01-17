@@ -1,5 +1,6 @@
 <div class="image-upload-section">
-    <div class="avatar-preview-container" (click)="!disabled() && fileInput.click()">
+    <div class="avatar-preview-container" (click)="!disabled() && fileInput.click()" role="button"
+        aria-label="Change contact photo">
         <app-avatar [src]="value()" [firstName]="firstName()" [lastName]="lastName()" [size]="120">
         </app-avatar>
 
@@ -11,7 +12,8 @@
         }
     </div>
 
-    <input #fileInput type="file" hidden (change)="onFileSelected($event)" accept="image/*">
+    <input #fileInput type="file" hidden (change)="onFileSelected($event)" accept="image/*"
+        aria-label="Upload contact photo">
 
     <div class="upload-info">
         <h3>Contact Photo</h3>

@@ -77,18 +77,48 @@
 }
 
 @media (max-width: 600px) {
-    .form-row {
-        flex-direction: column;
-        gap: 0 !important;
+    .form-container {
+        padding: 0.5rem;
     }
 
     .contact-card {
         box-shadow: none;
         border: none;
-        background: transparent;
+        border-radius: 0;
+        background: #f8fafc; // Match main background
+    }
+
+    mat-card-header {
+        padding: 1.5rem 1rem 0;
+        margin-bottom: 1rem !important;
+    }
+
+    mat-card-content {
+        padding: 0 1rem 1rem;
+    }
+
+    .form-row {
+        flex-direction: column;
+        gap: 0 !important;
+    }
+
+    .contact-form {
+        .actions {
+            margin-top: 1.5rem;
+            padding: 1rem 0 0;
+            border-top: 1px solid #e2e8f0;
+            display: flex;
+            gap: 0.75rem;
+
+            button {
+                flex: 1;
+                height: 48px; // Larger touch target
+            }
+        }
     }
 
     .form-container {
         padding: 1rem;
+        padding-bottom: 4rem; // Extra room for mobile browsers
     }
 }

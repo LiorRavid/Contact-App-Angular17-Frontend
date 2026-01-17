@@ -35,7 +35,6 @@ export class ContactsListComponent implements OnInit {
     ngOnInit(): void { }
 
     handleInfiniteScroll(): void {
-        // Only trigger if not already loading to be extra safe
         if (!this.contactsState.isLoading()) {
             this.contactsState.loadMore();
         }

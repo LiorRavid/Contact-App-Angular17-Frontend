@@ -3,7 +3,7 @@
     <input type="text" [formControl]="searchControl" placeholder="Search contacts..." (focus)="isFocused = true"
         (blur)="isFocused = false">
     @if (searchControl.value) {
-    <button mat-icon-button (click)="clearSearch()" class="clear-button">
+    <button mat-icon-button (click)="clearSearch()" class="clear-button" aria-label="Clear search">
         <mat-icon>close</mat-icon>
     </button>
     }
