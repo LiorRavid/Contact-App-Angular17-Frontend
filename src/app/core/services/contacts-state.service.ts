@@ -1,28 +1,36 @@
-import { Injectable, computed, signal } from '@angular/core';
+import { Injectable, computed, inject, signal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { Contact } from '../../shared/models/contact.model';
 import { StorageService } from './storage.service';
 import { ApiService } from './api.service';
+import { SearchService } from './search.service';
 import { Observable, catchError, finalize, of, tap } from 'rxjs';
 
 @Injectable({
     providedIn: 'root'
 })
 export class ContactsStateService {
+    private storageService = inject(StorageService);
+    private apiService = inject(ApiService);
+    private searchService = inject(SearchService);
+
     private contacts = signal<Contact[]>([]);
-    private searchTerm = signal<string>('');
     private loading = signal<boolean>(false);
     private error = signal<string | null>(null);
 
+    private searchTerm = toSignal(this.searchService.searchTerm$, { initialValue: '' });
+
     readonly allContacts = this.contacts.asReadonly();
     readonly isLoading = this.loading.asReadonly();
-    readonly currentSearchTerm = this.searchTerm.asReadonly();
     readonly currentError = this.error.asReadonly();
 
     readonly filteredContacts = computed(() => {
         const term = this.searchTerm().toLowerCase();
-        if (!term) return this.contacts();
+        const all = this.contacts();
 
-        return this.contacts().filter(c =>
+        if (!term) return all;
+
+        return all.filter(c =>
             c.firstName.toLowerCase().includes(term) ||
             c.lastName.toLowerCase().includes(term) ||
             c.phone.includes(term) ||
@@ -30,11 +38,6 @@ export class ContactsStateService {
             c.email.toLowerCase().includes(term)
         );
     });
-
-    constructor(
-        private storageService: StorageService,
-        private apiService: ApiService
-    ) { }
 
     loadInitialData(): Observable<Contact[] | boolean> {
         if (this.storageService.hasData()) {
@@ -56,10 +59,6 @@ export class ContactsStateService {
             }),
             finalize(() => this.loading.set(false))
         );
-    }
-
-    setSearchTerm(term: string) {
-        this.searchTerm.set(term);
     }
 
     addContact(contact: Contact) {

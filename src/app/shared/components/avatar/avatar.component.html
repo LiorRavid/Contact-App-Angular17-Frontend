@@ -1,0 +1,10 @@
+<div class="avatar" 
+     [style.width.px]="size" 
+     [style.height.px]="size"
+     [style.font-size.px]="size / 2.5">
+  @if (imageUrl()) {
+    <img [src]="imageUrl()" [alt]="altText()" (error)="onImageError()">
+  } @else {
+    <div class="initials">{{ initials() }}</div>
+  }
+</div>
