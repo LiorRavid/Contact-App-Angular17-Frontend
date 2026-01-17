@@ -4,16 +4,17 @@ import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angula
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatCardModule } from '@angular/material/card';
 import { ContactsStateService } from '../../core/services/contacts-state.service';
 import { Contact } from '../../shared/models/contact.model';
-import { ContactFormModel } from './models/contact-form.model';
 import { CONTACT_FORM_ERROR_MESSAGES } from './constants/contact-form.constants';
-import { ImageUploadService } from '../../core/services/image-upload.service';
 
 import { AvatarComponent } from '../../shared/components/avatar/avatar.component';
+
+import { BasicInputComponent } from '../../shared/components/basic-input/basic-input.component';
+
+import { ImageUploadComponent } from '../../shared/components/image-upload/image-upload.component';
+import { HasUnsavedChanges } from '../../core/guards/unsaved-changes.guard';
 
 @Component({
     selector: 'app-contact-form',
@@ -24,26 +25,33 @@ import { AvatarComponent } from '../../shared/components/avatar/avatar.component
         RouterModule,
         MatButtonModule,
         MatIconModule,
-        MatInputModule,
-        MatFormFieldModule,
         MatCardModule,
-        AvatarComponent
+        AvatarComponent,
+        BasicInputComponent,
+        ImageUploadComponent
     ],
     templateUrl: './contact-form.component.html',
     styleUrls: ['./contact-form.component.scss']
 })
-export class ContactFormComponent implements OnInit {
+export class ContactFormComponent implements OnInit, HasUnsavedChanges {
     private fb = inject(FormBuilder);
     private route = inject(ActivatedRoute);
     private router = inject(Router);
     private contactsState = inject(ContactsStateService);
 
+    // Expose constants for template
+    public readonly ERROR_MESSAGES = CONTACT_FORM_ERROR_MESSAGES;
+
     // State using Signals
     public isEditMode = signal<boolean>(false);
     public isSubmitting = signal<boolean>(false);
 
-    public contactForm!: FormGroup<ContactFormModel>;
+    public contactForm!: FormGroup;
     private contactId: string | null = null;
+
+    public hasUnsavedChanges(): boolean {
+        return this.contactForm?.dirty && !this.isSubmitting();
+    }
 
     ngOnInit(): void {
         this.initForm();
@@ -51,16 +59,13 @@ export class ContactFormComponent implements OnInit {
     }
 
     private initForm(): void {
-        this.contactForm = this.fb.group<ContactFormModel>({
-            firstName: this.fb.control('', { validators: [Validators.required, Validators.minLength(2)], nonNullable: true }),
-            lastName: this.fb.control('', { validators: [Validators.required, Validators.minLength(2)], nonNullable: true }),
-            email: this.fb.control('', { validators: [Validators.required, Validators.email], nonNullable: true }),
-            phone: this.fb.control('', {
-                validators: [Validators.required, Validators.pattern(/^[0-9-+() ]*$/)],
-                nonNullable: true
-            }),
-            cell: this.fb.control(''),
-            picture: this.fb.control('')
+        this.contactForm = this.fb.group({
+            firstName: ['', [Validators.required, Validators.minLength(2)]],
+            lastName: ['', [Validators.required, Validators.minLength(2)]],
+            email: ['', [Validators.required, Validators.email]],
+            phone: ['', [Validators.required, Validators.pattern(/^[0-9]*$/), Validators.minLength(10)]],
+            cell: ['', [Validators.pattern(/^[0-9]*$/), Validators.minLength(10)]],
+            picture: ['']
         });
     }
 
@@ -77,29 +82,6 @@ export class ContactFormComponent implements OnInit {
         }
     }
 
-    public getErrorMessage(controlName: string): string {
-        const control = this.contactForm.get(controlName);
-        if (!control || !control.errors) return '';
-
-        const firstErrorKey = Object.keys(control.errors)[0];
-        return CONTACT_FORM_ERROR_MESSAGES[controlName]?.[firstErrorKey] || 'Invalid field';
-    }
-
-    private imageUploadService = inject(ImageUploadService);
-
-    public onFileSelected(event: Event): void {
-        const input = event.target as HTMLInputElement;
-        if (input.files && input.files[0]) {
-            this.imageUploadService.uploadImage(input.files[0]).subscribe({
-                next: (base64: string) => {
-                    this.contactForm.patchValue({ picture: base64 });
-                },
-                error: (err: Error) => {
-                    alert(err.message);
-                }
-            });
-        }
-    }
 
     onSubmit(): void {
         if (this.contactForm.valid) {
@@ -117,6 +99,8 @@ export class ContactFormComponent implements OnInit {
                 } else {
                     this.contactsState.addContact(contactToSave);
                 }
+
+                this.contactForm.markAsPristine();
                 this.router.navigate(['/contacts']);
             } finally {
                 this.isSubmitting.set(false);

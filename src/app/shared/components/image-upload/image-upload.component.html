@@ -1,0 +1,29 @@
+<div class="image-upload-section">
+    <div class="avatar-preview-container" (click)="!disabled() && fileInput.click()">
+        <app-avatar [src]="value()" [firstName]="firstName()" [lastName]="lastName()" [size]="120">
+        </app-avatar>
+
+        @if (!disabled()) {
+        <div class="upload-overlay">
+            <mat-icon>camera_alt</mat-icon>
+            <span>Change Photo</span>
+        </div>
+        }
+    </div>
+
+    <input #fileInput type="file" hidden (change)="onFileSelected($event)" accept="image/*">
+
+    <div class="upload-info">
+        <h3>Contact Photo</h3>
+        <p>Select a photo for your contact</p>
+        <button mat-stroked-button type="button" color="primary" class="upload-btn" (click)="fileInput.click()"
+            [disabled]="disabled()">
+            <mat-icon>upload</mat-icon>
+            Upload from computer
+        </button>
+    </div>
+</div>
+
+@if (errorMessage) {
+<mat-error class="upload-error">{{ errorMessage }}</mat-error>
+}

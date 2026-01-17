@@ -1,6 +1,8 @@
 import { Routes } from '@angular/router';
 import { contactsResolver } from './core/resolvers/contacts.resolver';
 
+import { unsavedChangesGuard } from './core/guards/unsaved-changes.guard';
+
 export const routes: Routes = [
     { path: '', redirectTo: 'contacts', pathMatch: 'full' },
     {
@@ -10,10 +12,12 @@ export const routes: Routes = [
     },
     {
         path: 'contacts/new',
-        loadComponent: () => import('./features/contact-form/contact-form.component').then(m => m.ContactFormComponent)
+        loadComponent: () => import('./features/contact-form/contact-form.component').then(m => m.ContactFormComponent),
+        canDeactivate: [unsavedChangesGuard]
     },
     {
         path: 'contacts/:id/edit',
-        loadComponent: () => import('./features/contact-form/contact-form.component').then(m => m.ContactFormComponent)
+        loadComponent: () => import('./features/contact-form/contact-form.component').then(m => m.ContactFormComponent),
+        canDeactivate: [unsavedChangesGuard]
     }
 ];

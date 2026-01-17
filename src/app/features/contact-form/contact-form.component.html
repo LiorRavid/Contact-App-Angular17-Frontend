@@ -8,77 +8,36 @@
         <mat-card-content>
             <form [formGroup]="contactForm" (ngSubmit)="onSubmit()" class="contact-form">
                 <div class="form-row">
-                    <mat-form-field appearance="outline">
-                        <mat-label>First Name</mat-label>
-                        <input matInput formControlName="firstName" placeholder="e.g. John">
-                        @if (contactForm.get('firstName')?.invalid && contactForm.get('firstName')?.touched) {
-                        <mat-error>{{ getErrorMessage('firstName') }}</mat-error>
-                        }
-                    </mat-form-field>
+                    <app-basic-input label="First Name" formControlName="firstName" placeholder="e.g. John"
+                        [errorMessages]="ERROR_MESSAGES['firstName']">
+                    </app-basic-input>
 
-                    <mat-form-field appearance="outline">
-                        <mat-label>Last Name</mat-label>
-                        <input matInput formControlName="lastName" placeholder="e.g. Doe">
-                        @if (contactForm.get('lastName')?.invalid && contactForm.get('lastName')?.touched) {
-                        <mat-error>{{ getErrorMessage('lastName') }}</mat-error>
-                        }
-                    </mat-form-field>
+                    <app-basic-input label="Last Name" formControlName="lastName" placeholder="e.g. Doe"
+                        [errorMessages]="ERROR_MESSAGES['lastName']">
+                    </app-basic-input>
                 </div>
 
-                <mat-form-field appearance="outline" class="full-width">
-                    <mat-label>Email Address</mat-label>
-                    <input matInput formControlName="email" placeholder="e.g. john.doe@example.com" type="email">
-                    <mat-icon matSuffix color="primary">email</mat-icon>
-                    @if (contactForm.get('email')?.invalid && contactForm.get('email')?.touched) {
-                    <mat-error>{{ getErrorMessage('email') }}</mat-error>
-                    }
-                </mat-form-field>
+                <app-basic-input label="Email Address" formControlName="email" type="email"
+                    placeholder="e.g. john.doe@example.com" icon="email" [errorMessages]="ERROR_MESSAGES['email']">
+                </app-basic-input>
 
                 <div class="form-row">
-                    <mat-form-field appearance="outline">
-                        <mat-label>Phone Number</mat-label>
-                        <input matInput formControlName="phone" placeholder="e.g. 050-1234567">
-                        <mat-icon matSuffix color="primary">phone</mat-icon>
-                        @if (contactForm.get('phone')?.invalid && contactForm.get('phone')?.touched) {
-                        <mat-error>{{ getErrorMessage('phone') }}</mat-error>
-                        }
-                    </mat-form-field>
+                    <app-basic-input label="Phone Number" formControlName="phone" placeholder="e.g. 0501234567"
+                        icon="phone" [errorMessages]="ERROR_MESSAGES['phone']">
+                    </app-basic-input>
 
-                    <mat-form-field appearance="outline">
-                        <mat-label>Mobile (Cell)</mat-label>
-                        <input matInput formControlName="cell" placeholder="e.g. 054-1234567">
-                        <mat-icon matSuffix color="primary">smartphone</mat-icon>
-                    </mat-form-field>
+                    <app-basic-input label="Mobile (Cell)" formControlName="cell" placeholder="e.g. 054-1234567"
+                        icon="smartphone" [errorMessages]="ERROR_MESSAGES['cell']">
+                    </app-basic-input>
                 </div>
 
-                <div class="image-upload-section">
-                    <div class="avatar-preview-container" (click)="fileInput.click()">
-                        <app-avatar [src]="contactForm.value.picture" [firstName]="contactForm.value.firstName"
-                            [lastName]="contactForm.value.lastName" [size]="120">
-                        </app-avatar>
-                        <div class="upload-overlay">
-                            <mat-icon>camera_alt</mat-icon>
-                            <span>Change Photo</span>
-                        </div>
-                    </div>
-                    <input #fileInput type="file" hidden (change)="onFileSelected($event)" accept="image/*">
-                    <div class="upload-info">
-                        <h3>Contact Photo</h3>
-                        <p>Select a photo for your contact</p>
-                        <button mat-stroked-button type="button" color="primary" class="upload-btn"
-                            (click)="fileInput.click()">
-                            <mat-icon>upload</mat-icon>
-                            Upload from computer
-                        </button>
-                    </div>
-                </div>
+                <app-image-upload formControlName="picture" [firstName]="contactForm.value.firstName"
+                    [lastName]="contactForm.value.lastName">
+                </app-image-upload>
 
-                <mat-form-field appearance="outline" class="full-width">
-                    <mat-label>Avatar Image URL</mat-label>
-                    <input matInput formControlName="picture" placeholder="https://example.com/photo.jpg">
-                    <mat-icon matSuffix color="primary">image</mat-icon>
-                    <mat-hint>Paste a URL or upload a file above</mat-hint>
-                </mat-form-field>
+                <app-basic-input label="Avatar Image URL" formControlName="picture"
+                    placeholder="https://example.com/photo.jpg" icon="image" hint="Paste a URL or upload a file above">
+                </app-basic-input>
 
                 <div class="actions">
                     <button mat-button type="button" (click)="onCancel()" [disabled]="isSubmitting()">Cancel</button>
