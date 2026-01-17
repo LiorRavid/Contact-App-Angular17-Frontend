@@ -8,33 +8,44 @@
         </div>
         } @else {
         <div class="contacts-list">
-            @for (contact of contactsState.filteredContacts(); track contact.id) {
+            @for (contact of contactsState.filteredContacts(); track contact.id; let first = $first) {
+            @if (first) {
+            <!-- First item rendered immediately to ensure viewport is filled -->
+            <app-contact-card [contact]="contact" (onEdit)="editContact($event)" (onDelete)="deleteContact($event)">
+            </app-contact-card>
+            } @else {
             @defer (on viewport) {
             <app-contact-card [contact]="contact" (onEdit)="editContact($event)" (onDelete)="deleteContact($event)">
             </app-contact-card>
             } @placeholder {
             <div class="card-skeleton"></div>
-            } @loading (after 100ms; minimum 500ms) {
-            <app-loading-spinner></app-loading-spinner>
+            }
             }
             } @empty {
+            @if (!contactsState.isLoading()) {
             <div class="no-results">
                 <mat-icon>search_off</mat-icon>
                 <p>No contacts found matching your search.</p>
             </div>
             }
+            }
         </div>
 
         <!-- Infinite Scroll Anchor -->
         @if (contactsState.allContacts().length > 0) {
-        @defer (on viewport) {
-        <div class="scroll-loading">
-            <app-loading-spinner></app-loading-spinner>
-            <span [hidden]="true">{{ handleInfiniteScroll() }}</span>
+        <div class="scroll-trigger-container">
+            @if (contactsState.isLoading()) {
+            <div class="scroll-loading">
+                <app-loading-spinner></app-loading-spinner>
+            </div>
+            }
+
+            @defer (on viewport) {
+            <app-scroll-trigger (triggered)="handleInfiniteScroll()"></app-scroll-trigger>
+            } @placeholder {
+            <div class="scroll-anchor"></div>
+            }
         </div>
-        } @placeholder {
-        <div class="scroll-anchor"></div>
-        }
         }
         }
     </div>

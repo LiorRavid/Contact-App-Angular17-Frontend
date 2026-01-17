@@ -1,7 +1,7 @@
 import { inject } from '@angular/core';
 import { ResolveFn } from '@angular/router';
 import { ContactsStateService } from '../services/contacts-state.service';
-import { of } from 'rxjs';
+import { map, of } from 'rxjs';
 
 export const contactsResolver: ResolveFn<boolean> = (route, state) => {
     const contactsState = inject(ContactsStateService);
@@ -10,6 +10,5 @@ export const contactsResolver: ResolveFn<boolean> = (route, state) => {
         return of(true);
     }
 
-    contactsState.loadInitialData();
-    return of(true);
+    return contactsState.loadInitialData().pipe(map(() => true));
 };

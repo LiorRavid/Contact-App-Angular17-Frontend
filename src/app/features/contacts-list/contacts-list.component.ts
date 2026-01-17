@@ -9,6 +9,7 @@ import { HeaderComponent } from '../../shared/components/header/header.component
 import { LoadingSpinnerComponent } from '../../shared/components/loading-spinner/loading-spinner.component';
 import { ContactCardComponent } from './components/contact-card/contact-card.component';
 import { ConfirmDialogComponent } from '../../shared/components/confirm-dialog/confirm-dialog.component';
+import { ScrollTriggerComponent } from '../../shared/components/scroll-trigger/scroll-trigger.component';
 
 @Component({
     selector: 'app-contacts-list',
@@ -20,7 +21,8 @@ import { ConfirmDialogComponent } from '../../shared/components/confirm-dialog/c
         MatDialogModule,
         HeaderComponent,
         LoadingSpinnerComponent,
-        ContactCardComponent
+        ContactCardComponent,
+        ScrollTriggerComponent
     ],
     templateUrl: './contacts-list.component.html',
     styleUrls: ['./contacts-list.component.scss']
@@ -33,7 +35,10 @@ export class ContactsListComponent implements OnInit {
     ngOnInit(): void { }
 
     handleInfiniteScroll(): void {
-        this.contactsState.loadMore();
+        // Only trigger if not already loading to be extra safe
+        if (!this.contactsState.isLoading()) {
+            this.contactsState.loadMore();
+        }
     }
 
     addContact(): void {
