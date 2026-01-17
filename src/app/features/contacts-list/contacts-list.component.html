@@ -1,0 +1,43 @@
+<div class="contacts-container">
+    <header class="header">
+        <h1>My Contacts</h1>
+        <app-search-input></app-search-input>
+    </header>
+
+    @if (contactsState.isLoading() && contactsState.allContacts().length === 0) {
+    <app-loading-spinner></app-loading-spinner>
+    } @else {
+    <div class="contacts-grid">
+        @for (contact of contactsState.filteredContacts(); track contact.id) {
+        @defer (on viewport) {
+        <app-contact-card [contact]="contact" (onEdit)="editContact($event)" (onDelete)="deleteContact($event)">
+        </app-contact-card>
+        } @placeholder {
+        <div class="card-skeleton"></div>
+        } @loading (after 100ms; minimum 500ms) {
+        <app-loading-spinner></app-loading-spinner>
+        }
+        } @empty {
+        <div class="no-results">
+            <mat-icon>search_off</mat-icon>
+            <p>No contacts found matching your search.</p>
+        </div>
+        }
+    </div>
+
+    @if (contactsState.allContacts().length > 0) {
+    @defer (on viewport) {
+    <div class="scroll-loading">
+        <app-loading-spinner></app-loading-spinner>
+        <span [hidden]="true">{{ handleInfiniteScroll() }}</span>
+    </div>
+    } @placeholder {
+    <div class="scroll-anchor"></div>
+    }
+    }
+    }
+
+    <button mat-fab color="primary" class="add-button" (click)="addContact()" aria-label="Add new contact">
+        <mat-icon>add</mat-icon>
+    </button>
+</div>

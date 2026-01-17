@@ -82,6 +82,19 @@ export class ContactsStateService {
         return this.contacts().find(c => c.id === id);
     }
 
+    loadMore(): void {
+        if (this.loading()) return;
+
+        this.loading.set(true);
+        this.apiService.fetchContacts(20).pipe(
+            tap(newContacts => {
+                const updated = [...this.contacts(), ...newContacts];
+                this.updateStateAndStorage(updated);
+            }),
+            finalize(() => this.loading.set(false))
+        ).subscribe();
+    }
+
     private updateStateAndStorage(updated: Contact[]) {
         this.contacts.set(updated);
         this.storageService.saveContacts(updated);
