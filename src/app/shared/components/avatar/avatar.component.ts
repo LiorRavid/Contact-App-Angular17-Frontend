@@ -9,14 +9,14 @@ import { CommonModule } from '@angular/common';
     styleUrls: ['./avatar.component.scss']
 })
 export class AvatarComponent {
-    @Input({ required: true }) set src(value: string | undefined) {
-        this._src.set(value);
+    @Input({ required: true }) set src(value: string | null | undefined) {
+        this._src.set(value ?? undefined);
     }
-    @Input() set firstName(value: string | undefined) {
-        this._firstName.set(value);
+    @Input() set firstName(value: string | null | undefined) {
+        this._firstName.set(value ?? undefined);
     }
-    @Input() set lastName(value: string | undefined) {
-        this._lastName.set(value);
+    @Input() set lastName(value: string | null | undefined) {
+        this._lastName.set(value ?? undefined);
     }
     @Input() size: number = 40;
 

@@ -7,5 +7,13 @@ export const routes: Routes = [
         path: 'contacts',
         loadComponent: () => import('./features/contacts-list/contacts-list.component').then(m => m.ContactsListComponent),
         resolve: { contacts: contactsResolver }
+    },
+    {
+        path: 'contacts/new',
+        loadComponent: () => import('./features/contact-form/contact-form.component').then(m => m.ContactFormComponent)
+    },
+    {
+        path: 'contacts/:id/edit',
+        loadComponent: () => import('./features/contact-form/contact-form.component').then(m => m.ContactFormComponent)
     }
 ];
