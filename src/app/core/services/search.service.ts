@@ -7,11 +7,6 @@ import { BehaviorSubject, Observable, debounceTime, distinctUntilChanged, of, sw
 export class SearchService {
     private searchSubject = new BehaviorSubject<string>('');
 
-    /**
-     * Powerful search stream using switchMap. 
-     * In a real-world scenario, the switchMap would trigger an API call.
-     * Here it manages the term stream, ensuring only the latest search is processed.
-     */
     readonly searchTerm$: Observable<string> = this.searchSubject.pipe(
         debounceTime(300),
         distinctUntilChanged(),

@@ -46,7 +46,6 @@ export class ImageUploadComponent implements ControlValueAccessor, OnInit {
     }
 
     ngOnInit(): void {
-        // Sync value changes from the parent form control
         this.ngControl.control?.valueChanges
             .pipe(takeUntilDestroyed(this.destroyRef))
             .subscribe(val => {
@@ -56,7 +55,6 @@ export class ImageUploadComponent implements ControlValueAccessor, OnInit {
             });
     }
 
-    // ControlValueAccessor implementation
     writeValue(value: string): void {
         this.value.set(value || '');
     }
@@ -83,7 +81,6 @@ export class ImageUploadComponent implements ControlValueAccessor, OnInit {
                     this.value.set(base64);
                     this.onChange(base64);
                     this.onTouched();
-                    // Explicitly update parent control to trigger sync in other components
                     this.ngControl.control?.patchValue(base64, { emitEvent: true });
                     this.ngControl.control?.markAsDirty();
                 },
