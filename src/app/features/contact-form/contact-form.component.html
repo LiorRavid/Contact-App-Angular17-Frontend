@@ -22,12 +22,13 @@
                 </app-basic-input>
 
                 <div class="form-row">
-                    <app-basic-input label="Phone Number" formControlName="phone" placeholder="e.g. 0501234567"
-                        icon="phone" [errorMessages]="ERROR_MESSAGES['phone']">
+                    <app-basic-input label="Phone Number" formControlName="phone"
+                        placeholder="e.g. 021234567 or 031234567" icon="phone" [maxLength]="10"
+                        [errorMessages]="ERROR_MESSAGES['phone']">
                     </app-basic-input>
 
-                    <app-basic-input label="Mobile (Cell)" formControlName="cell" placeholder="e.g. 054-1234567"
-                        icon="smartphone" [errorMessages]="ERROR_MESSAGES['cell']">
+                    <app-basic-input label="Mobile (Cell)" formControlName="cell" placeholder="e.g. 0541234567"
+                        icon="smartphone" [maxLength]="10" [errorMessages]="ERROR_MESSAGES['cell']">
                     </app-basic-input>
                 </div>
 

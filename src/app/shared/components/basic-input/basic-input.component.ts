@@ -31,6 +31,7 @@ export class BasicInputComponent implements ControlValueAccessor {
     icon = input<string>();
     hint = input<string>();
     errorMessages = input<Record<string, string>>({});
+    maxLength = input<number | undefined>();
 
     value = signal<string>('');
     disabled = signal<boolean>(false);
@@ -84,7 +85,7 @@ export class BasicInputComponent implements ControlValueAccessor {
 
     get errorMessage(): string {
         const control = this.control;
-        if (!control || !control.errors || !control.touched) return '';
+        if (!control || !control.errors || (!control.touched && !control.dirty)) return '';
 
         const firstErrorKey = Object.keys(control.errors)[0];
         return this.errorMessages()[firstErrorKey] || 'Invalid field';

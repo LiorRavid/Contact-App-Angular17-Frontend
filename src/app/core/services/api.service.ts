@@ -24,8 +24,8 @@ export class ApiService {
             firstName: user.name.first,
             lastName: user.name.last,
             email: user.email,
-            phone: user.phone,
-            cell: user.cell,
+            phone: user.phone.replace(/\D/g, ''),
+            cell: user.cell.replace(/\D/g, ''),
             picture: user.picture.large
         };
     }

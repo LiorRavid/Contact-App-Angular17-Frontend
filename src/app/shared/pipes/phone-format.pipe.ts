@@ -26,6 +26,11 @@ export class PhoneFormatPipe implements PipeTransform {
             return `${cleaned.substring(0, 2)}-${cleaned.substring(2)}`;
         }
 
-        return value;
+        // Generic fallback for other formats (e.g. XXX-XXX-XXXX)
+        if (cleaned.length > 7) {
+            return `${cleaned.substring(0, 3)}-${cleaned.substring(3, 6)}-${cleaned.substring(6)}`;
+        }
+
+        return cleaned;
     }
 }

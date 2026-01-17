@@ -30,13 +30,13 @@ export class ContactsStateService {
 
         if (!term) return all;
 
-        return all.filter(c =>
-            c.firstName.toLowerCase().includes(term) ||
-            c.lastName.toLowerCase().includes(term) ||
-            c.phone.includes(term) ||
-            c.cell.includes(term) ||
-            c.email.toLowerCase().includes(term)
-        );
+        return all.filter(c => {
+            const fullName = `${c.firstName} ${c.lastName}`.toLowerCase();
+            return fullName.includes(term) ||
+                c.phone.includes(term) ||
+                c.cell.includes(term) ||
+                c.email.toLowerCase().includes(term);
+        });
     });
 
     loadInitialData(): Observable<Contact[] | boolean> {

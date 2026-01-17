@@ -14,11 +14,13 @@ export const CONTACT_FORM_ERROR_MESSAGES: Record<string, Record<string, string>>
     phone: {
         required: 'Phone number is required',
         pattern: 'Digits only',
-        minlength: 'Minimum 10 digits'
+        minlength: 'Minimum 9 digits',
+        maxlength: 'Maximum 10 digits'
     },
     cell: {
         pattern: 'Digits only',
-        minlength: 'Minimum 10 digits'
+        minlength: 'Minimum 10 digits',
+        maxlength: 'Maximum 10 digits'
     },
     image: {
         invalid: 'Invalid image file or too large'

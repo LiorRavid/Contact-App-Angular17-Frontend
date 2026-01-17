@@ -39,10 +39,8 @@ export class ContactFormComponent implements OnInit, HasUnsavedChanges {
     private router = inject(Router);
     private contactsState = inject(ContactsStateService);
 
-    // Expose constants for template
     public readonly ERROR_MESSAGES = CONTACT_FORM_ERROR_MESSAGES;
 
-    // State using Signals
     public isEditMode = signal<boolean>(false);
     public isSubmitting = signal<boolean>(false);
 
@@ -63,8 +61,8 @@ export class ContactFormComponent implements OnInit, HasUnsavedChanges {
             firstName: ['', [Validators.required, Validators.minLength(2)]],
             lastName: ['', [Validators.required, Validators.minLength(2)]],
             email: ['', [Validators.required, Validators.email]],
-            phone: ['', [Validators.required, Validators.pattern(/^[0-9]*$/), Validators.minLength(10)]],
-            cell: ['', [Validators.pattern(/^[0-9]*$/), Validators.minLength(10)]],
+            phone: ['', [Validators.required, Validators.pattern(/^[0-9]*$/), Validators.minLength(9), Validators.maxLength(10)]],
+            cell: ['', [Validators.pattern(/^[0-9]*$/), Validators.minLength(10), Validators.maxLength(10)]],
             picture: ['']
         });
     }
@@ -76,6 +74,9 @@ export class ContactFormComponent implements OnInit, HasUnsavedChanges {
             const contact = this.contactsState.getContactById(this.contactId);
             if (contact) {
                 this.contactForm.patchValue(contact);
+                if (this.contactForm.invalid) {
+                    this.contactForm.markAllAsTouched();
+                }
             } else {
                 this.router.navigate(['/contacts']);
             }
