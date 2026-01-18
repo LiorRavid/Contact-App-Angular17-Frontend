@@ -1,4 +1,4 @@
-import { Component, Optional, Self, input, signal, inject, DestroyRef } from '@angular/core';
+import { Component, Optional, Self, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
     ControlValueAccessor,
@@ -9,7 +9,6 @@ import {
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
     selector: 'app-basic-input',
@@ -33,51 +32,19 @@ export class BasicInputComponent implements ControlValueAccessor {
     errorMessages = input<Record<string, string>>({});
     maxLength = input<number | undefined>();
 
-    value = signal<string>('');
-    disabled = signal<boolean>(false);
-    private destroyRef = inject(DestroyRef);
-
-    onChange: (value: string) => void = () => { };
-    onTouched: () => void = () => { };
-
     constructor(@Optional() @Self() public ngControl: NgControl) {
         if (this.ngControl) {
             this.ngControl.valueAccessor = this;
         }
     }
 
-    ngOnInit(): void {
-        this.ngControl.control?.valueChanges
-            .pipe(takeUntilDestroyed(this.destroyRef))
-            .subscribe(val => {
-                if (val !== this.value()) {
-                    this.value.set(val || '');
-                }
-            });
-    }
+    writeValue(value: any): void { }
 
-    writeValue(value: string): void {
-        this.value.set(value || '');
-    }
+    registerOnChange(fn: any): void { }
 
-    registerOnChange(fn: any): void {
-        this.onChange = fn;
-    }
+    registerOnTouched(fn: any): void { }
 
-    registerOnTouched(fn: any): void {
-        this.onTouched = fn;
-    }
-
-    setDisabledState(isDisabled: boolean): void {
-        this.disabled.set(isDisabled);
-    }
-
-    onInput(event: Event): void {
-        const val = (event.target as HTMLInputElement).value;
-        this.value.set(val);
-        this.onChange(val);
-        this.ngControl.control?.markAsDirty();
-    }
+    setDisabledState(isDisabled: boolean): void { }
 
     get control(): FormControl {
         return this.ngControl?.control as FormControl;

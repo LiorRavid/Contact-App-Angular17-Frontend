@@ -1,4 +1,4 @@
-import { Component, Optional, Self, input, signal, inject, DestroyRef, OnInit } from '@angular/core';
+import { Component, Optional, Self, input, signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ControlValueAccessor, NgControl, ReactiveFormsModule, FormControl } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -6,7 +6,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { AvatarComponent } from '../avatar/avatar.component';
 import { ImageUploadService } from '../../../core/services/image-upload.service';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
     selector: 'app-image-upload',
@@ -22,12 +21,11 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
     templateUrl: './image-upload.component.html',
     styleUrls: ['./image-upload.component.scss']
 })
-export class ImageUploadComponent implements ControlValueAccessor, OnInit {
+export class ImageUploadComponent implements ControlValueAccessor {
     firstName = input<string>('');
     lastName = input<string>('');
 
     private imageUploadService = inject(ImageUploadService);
-    private destroyRef = inject(DestroyRef);
 
     value = signal<string>('');
     disabled = signal<boolean>(false);
@@ -43,16 +41,6 @@ export class ImageUploadComponent implements ControlValueAccessor, OnInit {
 
     get control(): FormControl {
         return this.ngControl?.control as FormControl;
-    }
-
-    ngOnInit(): void {
-        this.ngControl.control?.valueChanges
-            .pipe(takeUntilDestroyed(this.destroyRef))
-            .subscribe(val => {
-                if (val !== this.value()) {
-                    this.value.set(val || '');
-                }
-            });
     }
 
     writeValue(value: string): void {
