@@ -2,35 +2,16 @@
     <mat-card-content>
         <div class="card-layout">
             <div class="avatar-section">
-                <app-avatar [src]="contact.picture" [firstName]="contact.firstName" [lastName]="contact.lastName"
+                <app-avatar [src]="contact().picture" [firstName]="contact().firstName" [lastName]="contact().lastName"
                     [size]="56">
                 </app-avatar>
             </div>
 
-            <div class="info-section">
-                <h3 class="name">{{ contact | fullName }}</h3>
-                <div class="contact-details">
-                    <div class="detail-item">
-                        <mat-icon>email</mat-icon>
-                        <span class="truncate">{{ contact.email }}</span>
-                    </div>
-                    <div class="detail-item">
-                        <mat-icon>phone</mat-icon>
-                        <span>{{ contact.phone | phoneFormat }}</span>
-                    </div>
-                </div>
-            </div>
+            <app-contact-info [contact]="contact()"></app-contact-info>
 
-            <div class="actions-section">
-                <button mat-icon-button color="primary" (click)="onEdit.emit(contact.id)" matTooltip="Edit contact"
-                    aria-label="Edit contact">
-                    <mat-icon>edit</mat-icon>
-                </button>
-                <button mat-icon-button color="warn" (click)="onDelete.emit(contact.id)" matTooltip="Delete contact"
-                    aria-label="Delete contact">
-                    <mat-icon>delete</mat-icon>
-                </button>
-            </div>
+            <app-contact-actions [contactId]="contact().id" (edit)="onEdit.emit($event)"
+                (delete)="onDelete.emit($event)">
+            </app-contact-actions>
         </div>
     </mat-card-content>
 </mat-card>

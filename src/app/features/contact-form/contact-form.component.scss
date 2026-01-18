@@ -85,7 +85,7 @@
         box-shadow: none;
         border: none;
         border-radius: 0;
-        background: #f8fafc; // Match main background
+        background: #f8fafc;
     }
 
     mat-card-header {
@@ -112,13 +112,13 @@
 
             button {
                 flex: 1;
-                height: 48px; // Larger touch target
+                height: 48px;
             }
         }
     }
 
     .form-container {
         padding: 1rem;
-        padding-bottom: 4rem; // Extra room for mobile browsers
+        padding-bottom: 4rem;
     }
 }

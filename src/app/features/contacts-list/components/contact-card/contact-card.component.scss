@@ -40,56 +40,6 @@
     flex-shrink: 0;
 }
 
-.info-section {
-    flex: 1;
-    min-width: 0; // Needed for truncation to work in flex child
-
-    .name {
-        margin: 0 0 0.5rem;
-        font-size: 1.125rem;
-        font-weight: 700;
-        color: #1e293b;
-    }
-
-    .contact-details {
-        display: flex;
-        gap: 1.5rem;
-        flex-wrap: wrap;
-
-        .detail-item {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            color: #64748b;
-            font-size: 0.9rem;
-
-            mat-icon {
-                font-size: 18px;
-                width: 18px;
-                height: 18px;
-                color: #94a3b8;
-            }
-        }
-    }
-}
-
-.actions-section {
-    display: flex;
-    gap: 0.25rem;
-    opacity: 0.6;
-    transition: opacity 0.2s;
-
-    .contact-card:hover & {
-        opacity: 1;
-    }
-}
-
-.truncate {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
 @media (max-width: 640px) {
     .contact-card {
         position: relative;
@@ -101,61 +51,15 @@
 
     .card-layout {
         gap: 0.75rem;
-        align-items: flex-start; // Align to top on mobile
+        align-items: flex-start;
     }
 
     .avatar-section {
         padding-top: 0.25rem;
 
         .avatar-container {
-            // Assuming app-avatar has a container, or target the component
             width: 44px !important;
             height: 44px !important;
-        }
-    }
-
-    .info-section {
-        padding-right: 75px; // Reserve space for actions
-
-        .name {
-            font-size: 0.95rem;
-            margin-bottom: 0.15rem;
-            line-height: 1.2;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .contact-details {
-            flex-direction: column;
-            gap: 0.1rem !important;
-
-            .detail-item {
-                font-size: 0.8rem;
-                width: 100%;
-                overflow: hidden;
-
-                mat-icon {
-                    font-size: 14px;
-                    width: 14px;
-                    height: 14px;
-                }
-            }
-        }
-    }
-
-    .actions-section {
-        position: absolute;
-        top: 0.5rem;
-        right: 0.25rem;
-        opacity: 1;
-        gap: 0;
-
-        button {
-            width: 36px;
-            height: 36px;
-            line-height: 36px;
-            transform: scale(0.9);
         }
     }
 }

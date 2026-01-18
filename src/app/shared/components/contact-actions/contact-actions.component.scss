@@ -1,0 +1,32 @@
+:host {
+    display: block;
+    margin-left: auto;
+}
+
+.actions-section {
+    display: flex;
+    gap: 0.25rem;
+    opacity: 0.6;
+    transition: opacity 0.2s;
+
+    &:hover {
+        opacity: 1;
+    }
+}
+
+@media (max-width: 640px) {
+    .actions-section {
+        position: absolute;
+        top: 0.5rem;
+        right: 0.25rem;
+        opacity: 1;
+        gap: 0;
+
+        button {
+            width: 36px;
+            height: 36px;
+            line-height: 36px;
+            transform: scale(0.9);
+        }
+    }
+}

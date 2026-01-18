@@ -1,0 +1,10 @@
+<div class="actions-section">
+    <button mat-icon-button color="primary" (click)="edit.emit(contactId())" matTooltip="Edit contact"
+        aria-label="Edit contact">
+        <mat-icon>edit</mat-icon>
+    </button>
+    <button mat-icon-button color="warn" (click)="delete.emit(contactId())" matTooltip="Delete contact"
+        aria-label="Delete contact">
+        <mat-icon>delete</mat-icon>
+    </button>
+</div>
